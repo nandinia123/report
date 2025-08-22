@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #6dd5fa, #2980b9);
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      width: 60%;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      font-size: 16px;
+      background: #34495e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 18px;
+    }
+    .error {
+      color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather App</h1>
+  <input type="text" id="cityInput" placeholder="Enter city name" />
+  <button onclick="getWeather()">Get Weather</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    const apiKey = "https://wttr.in/";
+
+    function getWeather() {
+      const city = document.getElementById("cityInput").value.trim();
+      const resultDiv = document.getElementById("result");
+
+      if (!city) {
+        resultDiv.innerHTML = "<p class='error'>Please enter a city name.</p>";
+        return;
+      }
+
+      fetch(`${apiKey}${city}?format=%C+%t`)
+        .then(response => response.text())
+        .then(data => {
+          resultDiv.innerHTML = `<p>Weather in <strong>${city}</strong>: ${data}</p>`;
+        })
+        .catch(() => {
+          resultDiv.innerHTML = "<p class='error'>Unable to fetch weather data.</p>";
+        });
+    }
+  </script>
+</body>
+</html>
